@@ -17,8 +17,11 @@
 package controllers
 
 import base.SpecBase
+import models.Calculation
+import pages.SalaryPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import viewmodels.ResultViewModel
 import views.html.ResultView
 
 class ResultControllerSpec extends SpecBase {
@@ -27,7 +30,9 @@ class ResultControllerSpec extends SpecBase {
 
     "must return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val salary = BigDecimal(1)
+      val answers = emptyUserAnswers.set(SalaryPage, salary).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
 
       running(application) {
         val request = FakeRequest(GET, routes.ResultController.onPageLoad().url)
@@ -35,9 +40,11 @@ class ResultControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         val view = application.injector.instanceOf[ResultView]
+        val calculation = Calculation(salary)
+        val viewModel = ResultViewModel(calculation)(messages(application))
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view()(request, messages(application)).toString
+        contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
       }
     }
   }

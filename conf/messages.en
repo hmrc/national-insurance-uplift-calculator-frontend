@@ -66,5 +66,10 @@ salary.error.belowMinimum = Annual salary must be at least £1
 salary.error.aboveMaximum = Annual salary must be £1,000,000 or less
 salary.change.hidden = your annual salary
 
-result.title = result
-result.heading = result
+result.title = Result
+result.heading.noDifference = There is no difference in the NI you will pay
+result.heading.lessNiDue = The uplift means you will pay {0} less NI
+result.guidance = Content to explain the calculation goes here.
+result.salary = Salary
+result.niBeforeUplift = NI 2022 to 2023
+result.niAfterUplift = NI after uplift
