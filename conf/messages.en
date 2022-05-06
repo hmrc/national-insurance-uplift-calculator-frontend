@@ -1,4 +1,4 @@
-service.name = national-insurance-uplift-calculator-frontend
+service.name = National Insurance Uplift Calculator
 
 site.back = Back
 site.remove = Remove
@@ -35,9 +35,9 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = national-insurance-uplift-calculator-frontend
-index.heading = national-insurance-uplift-calculator-frontend
-index.guidance = Welcome to your new frontend. Please see the README file for a guide to getting started.
+index.title = National Insurance Uplift Calculator
+index.heading = National Insurance Uplift Calculator
+index.guidance = Guidance on who this calculator can be used by goes here.
 
 checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
