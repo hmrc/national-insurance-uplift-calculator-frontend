@@ -16,10 +16,14 @@
 
 package forms
 
-import forms.behaviours.IntFieldBehaviours
+import config.CurrencyFormatter
+import forms.behaviours.CurrencyFieldBehaviours
+import org.scalacheck.Gen
 import play.api.data.FormError
 
-class SalaryFormProviderSpec extends IntFieldBehaviours {
+import scala.math.BigDecimal.RoundingMode
+
+class SalaryFormProviderSpec extends CurrencyFieldBehaviours {
 
   val form = new SalaryFormProvider()()
 
@@ -27,10 +31,13 @@ class SalaryFormProviderSpec extends IntFieldBehaviours {
 
     val fieldName = "value"
 
-    val minimum = 0
-    val maximum = 1000000
+    val minimum = BigDecimal(1)
+    val maximum = BigDecimal(1000000)
 
-    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
+    val validDataGenerator =
+      Gen.choose[BigDecimal](minimum, maximum)
+        .map(_.setScale(2, RoundingMode.HALF_UP))
+        .map(_.toString)
 
     behave like fieldThatBindsValidData(
       form,
@@ -38,19 +45,25 @@ class SalaryFormProviderSpec extends IntFieldBehaviours {
       validDataGenerator
     )
 
-    behave like intField(
+    behave like currencyField(
       form,
       fieldName,
       nonNumericError  = FormError(fieldName, "salary.error.nonNumeric"),
-      wholeNumberError = FormError(fieldName, "salary.error.wholeNumber")
+      invalidNumericError = FormError(fieldName, "salary.error.invalidNumeric")
     )
 
-    behave like intFieldWithRange(
+    behave like currencyFieldWithMinimum(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
-      expectedError = FormError(fieldName, "salary.error.outOfRange", Seq(minimum, maximum))
+      minimum,
+      FormError(fieldName, "salary.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
+    )
+
+    behave like currencyFieldWithMaximum(
+      form,
+      fieldName,
+      maximum,
+      FormError(fieldName, "salary.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
     )
 
     behave like mandatoryField(

@@ -22,10 +22,10 @@ class SalaryPageSpec extends PageBehaviours {
 
   "SalaryPage" - {
 
-    beRetrievable[Int](SalaryPage)
+    beRetrievable[BigDecimal](SalaryPage)
 
-    beSettable[Int](SalaryPage)
+    beSettable[BigDecimal](SalaryPage)
 
-    beRemovable[Int](SalaryPage)
+    beRemovable[BigDecimal](SalaryPage)
   }
 }

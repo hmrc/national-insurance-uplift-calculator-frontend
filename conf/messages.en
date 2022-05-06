@@ -56,14 +56,15 @@ signedOut.guidance = We did not save your answers.
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
-salary.title = Salary
-salary.heading = Salary
+salary.title = What is your annual salary?
+salary.heading = What is your annual salary?
 salary.checkYourAnswersLabel = Salary
-salary.error.nonNumeric = Enter your salary using numbers
-salary.error.required = Enter your salary
-salary.error.wholeNumber = Enter your salary using whole numbers
-salary.error.outOfRange = Salary must be between {0} and {1}
-salary.change.hidden = Salary
+salary.error.nonNumeric = Enter your annual salary using numbers
+salary.error.required = Enter your annual salary
+salary.error.invalidNumeric = Enter your annual salary using up to two decimal places
+salary.error.belowMinimum = Annual salary must be at least £1
+salary.error.aboveMaximum = Annual salary must be £1,000,000 or less
+salary.change.hidden = your annual salary
 
 result.title = result
 result.heading = result

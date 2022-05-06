@@ -40,7 +40,7 @@ class SalaryControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val validAnswer = 0
+  val validAnswer = BigDecimal(1)
 
   lazy val salaryRoute = routes.SalaryController.onPageLoad(NormalMode).url
 
