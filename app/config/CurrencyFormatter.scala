@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package pages
+package config
 
-import pages.behaviours.PageBehaviours
-
-class SalaryPageSpec extends PageBehaviours {
-
-  "SalaryPage" - {
-
-    beRetrievable[BigDecimal](SalaryPage)
-
-    beSettable[BigDecimal](SalaryPage)
-
-    beRemovable[BigDecimal](SalaryPage)
-  }
+trait CurrencyFormatter {
+  def currencyFormat(amt: BigDecimal): String = f"&pound;$amt%,1.2f".replace(".00","")
 }
+
+object CurrencyFormatter extends CurrencyFormatter
