@@ -55,3 +55,15 @@ signedOut.guidance = We did not save your answers.
 
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
+
+salary.title = Salary
+salary.heading = Salary
+salary.checkYourAnswersLabel = Salary
+salary.error.nonNumeric = Enter your salary using numbers
+salary.error.required = Enter your salary
+salary.error.wholeNumber = Enter your salary using whole numbers
+salary.error.outOfRange = Salary must be between {0} and {1}
+salary.change.hidden = Salary
+
+result.title = result
+result.heading = result

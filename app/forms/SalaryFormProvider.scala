@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import forms.mappings.Mappings
+import javax.inject.Inject
+import play.api.data.Form
 
-trait PageGenerators {
+class SalaryFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitrarySalaryPage: Arbitrary[SalaryPage.type] =
-    Arbitrary(SalaryPage)
+  def apply(): Form[Int] =
+    Form(
+      "value" -> int(
+        "salary.error.required",
+        "salary.error.wholeNumber",
+        "salary.error.nonNumeric")
+          .verifying(inRange(0, 1000000, "salary.error.outOfRange"))
+    )
 }
