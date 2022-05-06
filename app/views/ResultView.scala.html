@@ -14,14 +14,34 @@
  * limitations under the License.
  *@
 
+@import config.CurrencyFormatter.currencyFormat
+@import viewmodels.ResultViewModel
+
 @this(
         layout: templates.Layout,
-        govukButton: GovukButton
+        govukButton: GovukButton,
+        govukSummaryList: GovukSummaryList
 )
 
-@()(implicit request: Request[_], messages: Messages)
+@(viewModel: ResultViewModel)(implicit request: Request[_], messages: Messages)
 
 @layout(pageTitle = titleNoForm(messages("result.title"))) {
 
-    <h1 class="govuk-heading-xl">@messages("result.heading")</h1>
+    <div class="govuk-panel govuk-panel--confirmation text-overflow">
+        <h1 class="govuk-panel__title">
+            @if(viewModel.calculation.amountSaved == 0) {
+                @messages("result.heading.noDifference")
+            } else {
+                @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.calculation.amountSaved)).toString)
+            }
+        </h1>
+    </div>
+
+    <p class="govuk-body">@messages("result.guidance")</p>
+
+    @govukSummaryList(viewModel.summaryList)
+
+    <a href="@routes.SalaryController.onPageLoad(NormalMode)" class="govuk-button">
+        @messages("site.startAgain")
+    </a>
 }

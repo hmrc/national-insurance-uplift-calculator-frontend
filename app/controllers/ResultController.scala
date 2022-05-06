@@ -17,10 +17,14 @@
 package controllers
 
 import controllers.actions._
+import models.Calculation
+import pages.SalaryPage
+
 import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import viewmodels.ResultViewModel
 import views.html.ResultView
 
 class ResultController @Inject()(
@@ -34,6 +38,13 @@ class ResultController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      Ok(view())
+      request.userAnswers.get(SalaryPage).map {
+        salary =>
+
+          val calculation = Calculation(salary)
+          val viewModel = ResultViewModel(calculation)
+
+          Ok(view(viewModel))
+      }.getOrElse(InternalServerError)
   }
 }
