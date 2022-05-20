@@ -76,3 +76,11 @@ result.niBeforeUplift = NI 2022 to 2023
 result.niAfterUplift = NI after uplift
 result.ni21_22 = NI due July 2021 to June 2022
 result.ni22_23 = NI due July 2022 to June 2023
+
+employmentStatus.title = Are you employed or self employed?
+employmentStatus.heading = Are you employed or self employed?
+employmentStatus.employed = Employed
+employmentStatus.selfEmployed = Self-employed
+employmentStatus.checkYourAnswersLabel = Are you employed or self employed?
+employmentStatus.error.required = Select employmentStatus
+employmentStatus.change.hidden = EmploymentStatus

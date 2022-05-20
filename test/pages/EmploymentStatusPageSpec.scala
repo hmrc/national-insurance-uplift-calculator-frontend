@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package generators
+package pages
 
-import models._
-import org.scalacheck.Arbitrary.arbitrary
-import org.scalacheck.{Arbitrary, Gen}
+import models.EmploymentStatus
+import pages.behaviours.PageBehaviours
 
-trait ModelGenerators {
+class EmploymentStatusSpec extends PageBehaviours {
 
-  implicit lazy val arbitraryEmploymentStatus: Arbitrary[EmploymentStatus] =
-    Arbitrary {
-      Gen.oneOf(EmploymentStatus.values.toSeq)
-    }
+  "EmploymentStatusPage" - {
+
+    beRetrievable[EmploymentStatus](EmploymentStatusPage)
+
+    beSettable[EmploymentStatus](EmploymentStatusPage)
+
+    beRemovable[EmploymentStatus](EmploymentStatusPage)
+  }
 }
