@@ -25,10 +25,10 @@ sealed trait EmploymentStatus
 object EmploymentStatus extends Enumerable.Implicits {
 
   case object Employed extends WithName("employed") with EmploymentStatus
-  case object Selfemployed extends WithName("selfEmployed") with EmploymentStatus
+  case object SelfEmployed extends WithName("selfEmployed") with EmploymentStatus
 
   val values: Seq[EmploymentStatus] = Seq(
-    Employed, Selfemployed
+    Employed, SelfEmployed
   )
 
   def options(implicit messages: Messages): Seq[RadioItem] = values.zipWithIndex.map {

@@ -22,12 +22,12 @@ GET         /unauthorised                                controllers.Unauthorise
 
 GET        /salary                  controllers.SalaryController.onPageLoad(mode: Mode = NormalMode)
 POST       /salary                  controllers.SalaryController.onSubmit(mode: Mode = NormalMode)
-GET        /changeSalary                        controllers.SalaryController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeSalary                        controllers.SalaryController.onSubmit(mode: Mode = CheckMode)
+GET        /change-salary                        controllers.SalaryController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-salary                        controllers.SalaryController.onSubmit(mode: Mode = CheckMode)
 
 GET        /result                       controllers.ResultController.onPageLoad()
 
-GET        /employmentStatus                        controllers.EmploymentStatusController.onPageLoad(mode: Mode = NormalMode)
-POST       /employmentStatus                        controllers.EmploymentStatusController.onSubmit(mode: Mode = NormalMode)
-GET        /changeEmploymentStatus                  controllers.EmploymentStatusController.onPageLoad(mode: Mode = CheckMode)
-POST       /changeEmploymentStatus                  controllers.EmploymentStatusController.onSubmit(mode: Mode = CheckMode)
+GET        /employment-status                        controllers.EmploymentStatusController.onPageLoad(mode: Mode = NormalMode)
+POST       /employment-status                        controllers.EmploymentStatusController.onSubmit(mode: Mode = NormalMode)
+GET        /change-employment-status                  controllers.EmploymentStatusController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-employment-status                  controllers.EmploymentStatusController.onSubmit(mode: Mode = CheckMode)

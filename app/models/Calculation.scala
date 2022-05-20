@@ -16,37 +16,43 @@
 
 package models
 
-import scala.math.BigDecimal.RoundingMode
+import models.EmploymentStatus.{Employed, SelfEmployed}
 
-case class Calculation(
-                        salary: BigDecimal,
-                        niBeforeUplift: BigDecimal,
-                        niAfterUplift: BigDecimal,
-                        amountSaved: BigDecimal
-                      )
+import scala.math.BigDecimal.RoundingMode.HALF_DOWN
+
+case class Calculation private(
+                                annualSalary: BigDecimal,
+                                employmentStatus: EmploymentStatus,
+                                ni21_22: BigDecimal,
+                                ni22_23: BigDecimal,
+                                saving: BigDecimal
+                              )
 
 object Calculation {
 
-  private val preUpliftThreshold  = BigDecimal(9880)
-  private val postUpliftThreshold = BigDecimal(12570)
-  private val upperEarningsLimit  = BigDecimal(50270)
-  private val standardRate        = BigDecimal(0.1325)
-  private val upperRate           = BigDecimal(0.0325)
+  def apply(employmentStatus: EmploymentStatus, annualSalary: BigDecimal): Calculation = {
 
-  def apply(salary: BigDecimal): Calculation = {
+    val rates = employmentStatus match {
+      case Employed     => TaxYearRates.EmployedRates
+      case SelfEmployed => TaxYearRates.SelfEmployedRates
+    }
 
-    val niPreUplift = niDue(salary, preUpliftThreshold)
-    val niPostUplift = niDue(salary, postUpliftThreshold)
-    val amountSaved = niPreUplift - niPostUplift
+    val monthlySalary = annualSalary / BigDecimal(12)
 
-    Calculation(salary, niPreUplift, niPostUplift, amountSaved)
+    val july21March22Ni = monthlyNi(monthlySalary, rates.july21March22Rates) * BigDecimal(9)
+    val april22June22Ni = monthlyNi(monthlySalary, rates.april22June22Rates) * BigDecimal(3)
+    val ni21_22         = july21March22Ni + april22June22Ni
+    val ni22_23         = monthlyNi(monthlySalary, rates.july22June23Rates) * BigDecimal(12)
+    val saving          = (ni21_22 - ni22_23).setScale(0, HALF_DOWN)
+
+    Calculation(annualSalary, employmentStatus, ni21_22, ni22_23, saving)
   }
 
-  private def niDue(salary: BigDecimal, threshold: BigDecimal): BigDecimal = {
+  private def monthlyNi(monthlySalary: BigDecimal, rates: Rates): BigDecimal = {
 
-    val standard = (salary - threshold).max(0).min(upperEarningsLimit - threshold)
-    val upper = (salary - upperEarningsLimit).max(0)
+    val primarySalary = (monthlySalary - rates.threshold).min(rates.upperLimit - rates.threshold).max(0)
+    val upperSalary   = (monthlySalary - rates.upperLimit).max(0)
 
-    ((standard * standardRate) + (upper * upperRate)).setScale(2, RoundingMode.HALF_DOWN)
+    (primarySalary * rates.mainRate).setScale(2, HALF_DOWN) + (upperSalary * rates.upperRate).setScale(2, HALF_DOWN)
   }
 }

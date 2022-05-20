@@ -29,12 +29,12 @@
 
     <div class="govuk-panel govuk-panel--confirmation text-overflow">
         <h1 class="govuk-panel__title">
-            @if(viewModel.comparison.saving == 0) {
+            @if(viewModel.calculation.saving == 0) {
                 @messages("result.heading.noDifference")
-            } else if(viewModel.comparison.saving < 0) {
-                @messages("result.heading.moreNiDue", Html(currencyFormat(viewModel.comparison.saving.abs)).toString)
+            } else if(viewModel.calculation.saving < 0) {
+                @messages("result.heading.moreNiDue", Html(currencyFormat(viewModel.calculation.saving.abs)).toString)
             } else {
-                @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.comparison.saving)).toString)
+                @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.calculation.saving)).toString)
             }
         </h1>
     </div>
@@ -43,7 +43,7 @@
 
     @govukSummaryList(viewModel.summaryList)
 
-    <a href="@routes.SalaryController.onPageLoad(NormalMode)" class="govuk-button">
+    <a href="@routes.EmploymentStatusController.onPageLoad(NormalMode)" class="govuk-button">
         @messages("site.startAgain")
     </a>
 }

@@ -35,6 +35,11 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad
       }
 
+      "must go from Employment Status to Salary" in {
+
+        navigator.nextPage(EmploymentStatusPage, NormalMode, emptyUserAnswers) mustBe routes.SalaryController.onPageLoad(NormalMode)
+      }
+
       "must go from Salary to Result" in {
 
         navigator.nextPage(SalaryPage, NormalMode, emptyUserAnswers) mustBe routes.ResultController.onPageLoad

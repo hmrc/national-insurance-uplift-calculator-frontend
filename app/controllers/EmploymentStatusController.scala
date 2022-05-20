@@ -18,8 +18,7 @@ package controllers
 
 import controllers.actions._
 import forms.EmploymentStatusFormProvider
-import javax.inject.Inject
-import models.Mode
+import models.{Mode, UserAnswers}
 import navigation.Navigator
 import pages.EmploymentStatusPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -28,6 +27,7 @@ import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.EmploymentStatusView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class EmploymentStatusController @Inject()(
@@ -36,7 +36,6 @@ class EmploymentStatusController @Inject()(
                                        navigator: Navigator,
                                        identify: IdentifierAction,
                                        getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
                                        formProvider: EmploymentStatusFormProvider,
                                        val controllerComponents: MessagesControllerComponents,
                                        view: EmploymentStatusView
@@ -44,10 +43,10 @@ class EmploymentStatusController @Inject()(
 
   val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(EmploymentStatusPage) match {
+      val preparedForm = request.userAnswers.getOrElse(UserAnswers(request.userId)).get(EmploymentStatusPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -55,7 +54,7 @@ class EmploymentStatusController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
     implicit request =>
 
       form.bindFromRequest().fold(
@@ -64,7 +63,7 @@ class EmploymentStatusController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(EmploymentStatusPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers(request.userId)).set(EmploymentStatusPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(EmploymentStatusPage, mode, updatedAnswers))
       )

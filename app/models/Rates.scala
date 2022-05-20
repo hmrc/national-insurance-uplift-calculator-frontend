@@ -55,4 +55,28 @@ object TaxYearRates {
       upperRate = BigDecimal(0.0325)
     )
   }
+
+  object SelfEmployedRates extends TaxYearRates {
+
+    val july21March22Rates: Rates = Rates(
+      threshold = BigDecimal(797),
+      upperLimit = BigDecimal(4189),
+      mainRate = BigDecimal(0.09),
+      upperRate = BigDecimal(0.02)
+    )
+
+    val april22June22Rates: Rates = Rates(
+      threshold = BigDecimal(823),
+      upperLimit = BigDecimal(4189),
+      mainRate = BigDecimal(0.1025),
+      upperRate = BigDecimal(0.0325)
+    )
+
+    val july22June23Rates: Rates = Rates(
+      threshold = BigDecimal(1048),
+      upperLimit = BigDecimal(4189),
+      mainRate = BigDecimal(0.1025),
+      upperRate = BigDecimal(0.0325)
+    )
+  }
 }

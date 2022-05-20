@@ -17,8 +17,8 @@
 package controllers
 
 import controllers.actions._
-import models.Comparison
-import pages.SalaryPage
+import models.Calculation
+import pages.{EmploymentStatusPage, SalaryPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -38,13 +38,15 @@ class ResultController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      request.userAnswers.get(SalaryPage).map {
-        salary =>
+      (request.userAnswers.get(EmploymentStatusPage), request.userAnswers.get(SalaryPage)) match {
+        case (Some(employmentStatus), Some(salary)) =>
 
-          val comparison = Comparison(salary)
-          val viewModel  = ResultViewModel(comparison)
+          val calculation = Calculation(employmentStatus, salary)
+          val viewModel   = ResultViewModel(calculation)
 
           Ok(view(viewModel))
-      }.getOrElse(InternalServerError)
+
+        case _ => Redirect(routes.JourneyRecoveryController.onPageLoad())
+      }
   }
 }

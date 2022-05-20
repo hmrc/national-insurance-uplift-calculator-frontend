@@ -17,28 +17,33 @@
 package viewmodels
 
 import config.CurrencyFormatter.currencyFormat
-import models.{Calculation, Comparison}
+import models.Calculation
 import play.api.i18n.Messages
 import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, SummaryListRow}
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
-case class ResultViewModel(comparison: Comparison)(implicit messages: Messages) {
+case class ResultViewModel(calculation: Calculation)(implicit messages: Messages) {
 
   private val rows: List[SummaryListRow] = List(
     SummaryListRowViewModel(
+      key     = "result.employmentStatus",
+      value   = ValueViewModel(messages(s"employmentStatus.${calculation.employmentStatus.toString}")),
+      actions = Nil
+    ),
+    SummaryListRowViewModel(
       key     = "result.annualSalary",
-      value   = ValueViewModel(currencyFormat(comparison.annualSalary)),
+      value   = ValueViewModel(currencyFormat(calculation.annualSalary)),
       actions = Nil
     ),
     SummaryListRowViewModel(
       key    = "result.ni21_22",
-      value  = ValueViewModel(currencyFormat(comparison.ni21_22)),
+      value  = ValueViewModel(currencyFormat(calculation.ni21_22)),
       actions = Nil
     ),
     SummaryListRowViewModel(
       key    = "result.ni22_23",
-      value  = ValueViewModel(currencyFormat(comparison.ni22_23)),
+      value  = ValueViewModel(currencyFormat(calculation.ni22_23)),
       actions = Nil
     )
   )
