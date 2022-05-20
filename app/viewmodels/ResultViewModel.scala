@@ -27,18 +27,23 @@ case class ResultViewModel(calculation: Calculation)(implicit messages: Messages
 
   private val rows: List[SummaryListRow] = List(
     SummaryListRowViewModel(
-      key     = "result.salary",
-      value   = ValueViewModel(currencyFormat(calculation.salary)),
+      key     = "result.employmentStatus",
+      value   = ValueViewModel(messages(s"employmentStatus.${calculation.employmentStatus.toString}")),
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = "result.niBeforeUplift",
-      value  = ValueViewModel(currencyFormat(calculation.niBeforeUplift)),
+      key     = "result.annualSalary",
+      value   = ValueViewModel(currencyFormat(calculation.annualSalary)),
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = "result.niAfterUplift",
-      value  = ValueViewModel(currencyFormat(calculation.niAfterUplift)),
+      key    = "result.ni21_22",
+      value  = ValueViewModel(currencyFormat(calculation.ni21_22)),
+      actions = Nil
+    ),
+    SummaryListRowViewModel(
+      key    = "result.ni22_23",
+      value  = ValueViewModel(currencyFormat(calculation.ni22_23)),
       actions = Nil
     )
   )

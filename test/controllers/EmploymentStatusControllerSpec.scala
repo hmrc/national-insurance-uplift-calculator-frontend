@@ -17,45 +17,43 @@
 package controllers
 
 import base.SpecBase
-import forms.SalaryFormProvider
-import models.{NormalMode, UserAnswers}
+import forms.EmploymentStatusFormProvider
+import models.{EmploymentStatus, NormalMode, UserAnswers}
 import navigation.{FakeNavigator, Navigator}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
-import pages.SalaryPage
+import pages.EmploymentStatusPage
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import repositories.SessionRepository
-import views.html.SalaryView
+import views.html.EmploymentStatusView
 
 import scala.concurrent.Future
 
-class SalaryControllerSpec extends SpecBase with MockitoSugar {
-
-  val formProvider = new SalaryFormProvider()
-  val form = formProvider()
+class EmploymentStatusControllerSpec extends SpecBase with MockitoSugar {
 
   def onwardRoute = Call("GET", "/foo")
 
-  val validAnswer = BigDecimal(1)
+  lazy val employmentStatusRoute = routes.EmploymentStatusController.onPageLoad(NormalMode).url
 
-  lazy val salaryRoute = routes.SalaryController.onPageLoad(NormalMode).url
+  val formProvider = new EmploymentStatusFormProvider()
+  val form = formProvider()
 
-  "Salary Controller" - {
+  "EmploymentStatus Controller" - {
 
     "must return OK and the correct view for a GET" in {
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, salaryRoute)
+        val request = FakeRequest(GET, employmentStatusRoute)
 
         val result = route(application, request).value
 
-        val view = application.injector.instanceOf[SalaryView]
+        val view = application.injector.instanceOf[EmploymentStatusView]
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(form, NormalMode)(request, messages(application)).toString
@@ -64,19 +62,19 @@ class SalaryControllerSpec extends SpecBase with MockitoSugar {
 
     "must populate the view correctly on a GET when the question has previously been answered" in {
 
-      val userAnswers = UserAnswers(userAnswersId).set(SalaryPage, validAnswer).success.value
+      val userAnswers = UserAnswers(userAnswersId).set(EmploymentStatusPage, EmploymentStatus.values.head).success.value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
       running(application) {
-        val request = FakeRequest(GET, salaryRoute)
+        val request = FakeRequest(GET, employmentStatusRoute)
 
-        val view = application.injector.instanceOf[SalaryView]
+        val view = application.injector.instanceOf[EmploymentStatusView]
 
         val result = route(application, request).value
 
         status(result) mustEqual OK
-        contentAsString(result) mustEqual view(form.fill(validAnswer), NormalMode)(request, messages(application)).toString
+        contentAsString(result) mustEqual view(form.fill(EmploymentStatus.values.head), NormalMode)(request, messages(application)).toString
       }
     }
 
@@ -96,8 +94,8 @@ class SalaryControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, salaryRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+          FakeRequest(POST, employmentStatusRoute)
+            .withFormUrlEncodedBody(("value", EmploymentStatus.values.head.toString))
 
         val result = route(application, request).value
 
@@ -112,12 +110,12 @@ class SalaryControllerSpec extends SpecBase with MockitoSugar {
 
       running(application) {
         val request =
-          FakeRequest(POST, salaryRoute)
+          FakeRequest(POST, employmentStatusRoute)
             .withFormUrlEncodedBody(("value", "invalid value"))
 
         val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[SalaryView]
+        val view = application.injector.instanceOf[EmploymentStatusView]
 
         val result = route(application, request).value
 
@@ -126,33 +124,42 @@ class SalaryControllerSpec extends SpecBase with MockitoSugar {
       }
     }
 
-    "must redirect to Journey Recovery for a GET if no existing data is found" in {
+    "must return OK for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
 
       running(application) {
-        val request = FakeRequest(GET, salaryRoute)
+        val request = FakeRequest(GET, employmentStatusRoute)
 
         val result = route(application, request).value
 
-        status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        status(result) mustEqual OK
       }
     }
 
-    "must redirect to Journey Recovery for a POST if no existing data is found" in {
+    "must save the answer and redirect to the next page for a POST if no existing data is found" in {
 
-      val application = applicationBuilder(userAnswers = None).build()
+      val mockSessionRepository = mock[SessionRepository]
+
+      when(mockSessionRepository.set(any())) thenReturn Future.successful(true)
+
+      val application =
+        applicationBuilder(userAnswers = None)
+          .overrides(
+            bind[Navigator].toInstance(new FakeNavigator(onwardRoute)),
+            bind[SessionRepository].toInstance(mockSessionRepository)
+          )
+          .build()
 
       running(application) {
         val request =
-          FakeRequest(POST, salaryRoute)
-            .withFormUrlEncodedBody(("value", validAnswer.toString))
+          FakeRequest(POST, employmentStatusRoute)
+            .withFormUrlEncodedBody(("value", EmploymentStatus.values.head.toString))
 
         val result = route(application, request).value
 
         status(result) mustEqual SEE_OTHER
-        redirectLocation(result).value mustEqual routes.JourneyRecoveryController.onPageLoad().url
+        redirectLocation(result).value mustEqual onwardRoute.url
       }
     }
   }

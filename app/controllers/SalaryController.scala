@@ -32,23 +32,23 @@ import views.html.SalaryView
 import scala.concurrent.{ExecutionContext, Future}
 
 class SalaryController @Inject()(
-                                        override val messagesApi: MessagesApi,
-                                        sessionRepository: SessionRepository,
-                                        navigator: Navigator,
-                                        identify: IdentifierAction,
-                                        getData: DataRetrievalAction,
-                                        requireData: DataRequiredAction,
-                                        formProvider: SalaryFormProvider,
-                                        val controllerComponents: MessagesControllerComponents,
-                                        view: SalaryView
-                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                                  override val messagesApi: MessagesApi,
+                                  sessionRepository: SessionRepository,
+                                  navigator: Navigator,
+                                  identify: IdentifierAction,
+                                  getData: DataRetrievalAction,
+                                  requireData: DataRequiredAction,
+                                  formProvider: SalaryFormProvider,
+                                  val controllerComponents: MessagesControllerComponents,
+                                  view: SalaryView
+                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider()
 
-  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData) {
+  def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.getOrElse(UserAnswers(request.userId)).get(SalaryPage) match {
+      val preparedForm = request.userAnswers.get(SalaryPage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -56,7 +56,7 @@ class SalaryController @Inject()(
       Ok(view(preparedForm, mode))
   }
 
-  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData).async {
+  def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
 
       form.bindFromRequest().fold(
@@ -65,7 +65,7 @@ class SalaryController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.getOrElse(UserAnswers(request.userId)).set(SalaryPage, value))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
             _              <- sessionRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
       )
