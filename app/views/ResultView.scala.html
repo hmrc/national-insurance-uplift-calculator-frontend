@@ -29,10 +29,12 @@
 
     <div class="govuk-panel govuk-panel--confirmation text-overflow">
         <h1 class="govuk-panel__title">
-            @if(viewModel.calculation.amountSaved == 0) {
+            @if(viewModel.comparison.saving == 0) {
                 @messages("result.heading.noDifference")
+            } else if(viewModel.comparison.saving < 0) {
+                @messages("result.heading.moreNiDue", Html(currencyFormat(viewModel.comparison.saving.abs)).toString)
             } else {
-                @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.calculation.amountSaved)).toString)
+                @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.comparison.saving)).toString)
             }
         </h1>
     </div>

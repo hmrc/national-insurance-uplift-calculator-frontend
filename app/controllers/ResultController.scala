@@ -17,32 +17,32 @@
 package controllers
 
 import controllers.actions._
-import models.Calculation
+import models.Comparison
 import pages.SalaryPage
-
-import javax.inject.Inject
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.ResultViewModel
 import views.html.ResultView
 
+import javax.inject.Inject
+
 class ResultController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       identify: IdentifierAction,
-                                       getData: DataRetrievalAction,
-                                       requireData: DataRequiredAction,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       view: ResultView
-                                     ) extends FrontendBaseController with I18nSupport {
+                                  override val messagesApi: MessagesApi,
+                                  identify: IdentifierAction,
+                                  getData: DataRetrievalAction,
+                                  requireData: DataRequiredAction,
+                                  val controllerComponents: MessagesControllerComponents,
+                                  view: ResultView
+                                ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
       request.userAnswers.get(SalaryPage).map {
         salary =>
 
-          val calculation = Calculation(salary)
-          val viewModel = ResultViewModel(calculation)
+          val comparison = Comparison(salary)
+          val viewModel  = ResultViewModel(comparison)
 
           Ok(view(viewModel))
       }.getOrElse(InternalServerError)

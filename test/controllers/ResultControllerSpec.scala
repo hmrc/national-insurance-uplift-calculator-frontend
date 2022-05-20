@@ -17,7 +17,7 @@
 package controllers
 
 import base.SpecBase
-import models.Calculation
+import models.{Calculation, Comparison}
 import pages.SalaryPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -41,7 +41,8 @@ class ResultControllerSpec extends SpecBase {
 
         val view = application.injector.instanceOf[ResultView]
         val calculation = Calculation(salary)
-        val viewModel = ResultViewModel(calculation)(messages(application))
+        val comparison = Comparison(salary)
+        val viewModel = ResultViewModel(comparison)(messages(application))
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
