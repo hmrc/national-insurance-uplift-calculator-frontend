@@ -18,17 +18,16 @@ package controllers
 
 import controllers.actions._
 import forms.SalaryFormProvider
-
-import javax.inject.Inject
-import models.{Mode, UserAnswers}
+import models.Mode
 import navigation.Navigator
-import pages.SalaryPage
+import pages.{EmploymentStatusPage, SalaryPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.SalaryView
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class SalaryController @Inject()(
@@ -41,33 +40,44 @@ class SalaryController @Inject()(
                                   formProvider: SalaryFormProvider,
                                   val controllerComponents: MessagesControllerComponents,
                                   view: SalaryView
-                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
-
-  private val form = formProvider()
+                                )(implicit ec: ExecutionContext)
+  extends FrontendBaseController
+    with I18nSupport
+    with AnswerExtractor {
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
+      getAnswer(EmploymentStatusPage) {
+        employmentStatus =>
 
-      val preparedForm = request.userAnswers.get(SalaryPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
+          val form = formProvider(employmentStatus)
+
+          val preparedForm = request.userAnswers.get(SalaryPage) match {
+            case None => form
+            case Some(value) => form.fill(value)
+          }
+
+          Ok(view(preparedForm, mode, employmentStatus))
       }
-
-      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
+      getAnswerAsync(EmploymentStatusPage) {
+        employmentStatus =>
 
-      form.bindFromRequest().fold(
-        formWithErrors =>
-          Future.successful(BadRequest(view(formWithErrors, mode))),
+          val form = formProvider(employmentStatus)
 
-        value =>
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
-            _              <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
-      )
+          form.bindFromRequest().fold(
+            formWithErrors =>
+              Future.successful(BadRequest(view(formWithErrors, mode, employmentStatus))),
+
+            value =>
+              for {
+                updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
+                _ <- sessionRepository.set(updatedAnswers)
+              } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
+          )
+        }
   }
 }

@@ -17,18 +17,20 @@
 package forms
 
 import forms.mappings.Mappings
+import models.EmploymentStatus
+
 import javax.inject.Inject
 import play.api.data.Form
 
 class SalaryFormProvider @Inject() extends Mappings {
 
-  def apply(): Form[BigDecimal] =
+  def apply(employmentStatus: EmploymentStatus): Form[BigDecimal] =
     Form(
       "value" -> currency(
-        "salary.error.required",
-        "salary.error.invalidNumeric",
-        "salary.error.nonNumeric")
-          .verifying(minimumCurrency(1, "salary.error.belowMinimum"))
-          .verifying(maximumCurrency(1000000, "salary.error.aboveMaximum"))
+        s"salary.${employmentStatus.toString}.error.required",
+        s"salary.${employmentStatus.toString}.error.invalidNumeric",
+        s"salary.${employmentStatus.toString}.error.nonNumeric")
+          .verifying(minimumCurrency(1, s"salary.${employmentStatus.toString}.error.belowMinimum"))
+          .verifying(maximumCurrency(1000000, s"salary.${employmentStatus.toString}.error.aboveMaximum"))
     )
 }
