@@ -32,8 +32,8 @@ case class ResultViewModel(calculation: Calculation)(implicit messages: Messages
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key     = "result.annualSalary",
-      value   = ValueViewModel(currencyFormat(calculation.annualSalary)),
+      key     = s"result.${calculation.employmentStatus.toString}.annualSalary",
+      value   = ValueViewModel(s"${currencyFormat(calculation.annualSalary)} ${messages("result.annualSalary.hint")}"),
       actions = Nil
     ),
     SummaryListRowViewModel(

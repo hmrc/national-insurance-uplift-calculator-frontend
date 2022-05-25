@@ -1,4 +1,4 @@
-service.name = National Insurance Uplift Calculator
+service.name = National Insurance calculator
 
 site.back = Back
 site.remove = Remove
@@ -35,9 +35,25 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = National Insurance Uplift Calculator
-index.heading = National Insurance Uplift Calculator
-index.guidance = Guidance on who this calculator can be used by goes here.
+index.title = National Insurance calculator
+index.heading = National Insurance calculator
+index.guidance.p1 = Use this tool to get an estimate on how much your National Insurance contributions (NICs) will be from 6 July 2022 to 5 July 2023, compared to 6 July 2021 to 5 July 2022.
+index.guidance.p2 = As of 6 April 2022 NICs have increased by 1.25 percentage points. To offset this, from 6 July 2022 the threshold for NICs is going up to £12,570.
+index.guidance.p3 = This tool will show the estimated impact of these two changes on your NICs.
+index.guidance.beforeYouStart = Before you start
+index.guidance.beforeYouStart.p1 = Your estimate will not be accurate if:
+index.guidance.beforeYouStart.bullet1 = You have more than one job
+index.guidance.beforeYouStart.bullet2 = You receive self-employed and employment income
+index.guidance.beforeYouStart.bullet3 = Your income has changed since <date>
+index.guidance.beforeYouStart.bullet4 = Your income regularly changes throughout the year
+index.guidance.beforeYouStart.bullet5 = You have changed jobs since <date>
+index.guidance.beforeYouStart.bullet6 = You have moved residence in or out of the UK since <date>
+index.guidance.beforeYouStart.bullet7 = You are over state pension age
+index.guidance.beforeYouStart.bullet8 = You are on means tested benefits
+index.guidance.beforeYouStart.bullet9 = You choose to make additional NI contributions to ensure you qualify for certain benefits
+index.guidance.beforeYouStart.bullet10 = Your pay arrangements have changed since <date>. For example, moving from monthly pay to weekly pay.
+index.guidance.beforeYouStart.bullet11 = Intermediary rules apply to you, so the liability to NI contributions is not established until <later>.
+index.guidance.beforeYouStart.bullet12 = You are a woman who married before 1975 and are still working
 
 checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
@@ -78,16 +94,19 @@ salary.selfEmployed.error.aboveMaximum = Annual income must be £1,000,000 or le
 salary.selfEmployed.change.hidden = your annual income
 
 result.title = Result
-result.heading.noDifference = There is no difference in the NI you will pay
-result.heading.lessNiDue = You will pay {0} less NI
-result.heading.moreNiDue = You will pay {0} more NI
-result.guidance = Content to explain the calculation goes here.
+result.heading.noDifference = You are estimated to have no change to your National Insurance contributions (NICs)
+result.heading.lessNiDue = You are estimated to pay {0} less in National Insurance contributions (NICs)
+result.heading.moreNiDue = You are estimated to pay {0} more in National Insurance contributions (NICs)
+result.guidance.p1 = This result is an estimate based on the information you gave us not changing from 6th July 2021 until 5th July 2023.
+result.guidance.p2 = Find out more about the
+result.guidance.link.text = recent changes to NICs
+result.guidance.link.href = https://www.gov.uk/government/publications/national-insurance-primary-threshold-and-the-lower-profits-limit-increase-and-associated-class-2-changes-in-2022-to-2023-tax-year/national-insurance-increase-to-primary-threshold-and-the-lower-profits-limit-and-reduction-in-class-2-liability-of-those-earning-between-the-small-pr
 result.employmentStatus = Employment status
-result.annualSalary = Annual salary
-result.niBeforeUplift = NI 2022 to 2023
-result.niAfterUplift = NI after uplift
-result.ni21_22 = NI due July 2021 to June 2022
-result.ni22_23 = NI due July 2022 to June 2023
+result.employed.annualSalary = Annual salary
+result.selfEmployed.annualSalary = Annual income
+result.annualSalary.hint = (You told us this)
+result.ni21_22 = NICs due from 6 July 2021 to 5 July 2022
+result.ni22_23 = NICs due from 6 July 2022 to 5 July 2023
 
 employmentStatus.title = Are you employed or self-employed?
 employmentStatus.heading = Are you employed or self-employed?

@@ -39,7 +39,12 @@
         </h1>
     </div>
 
-    <p class="govuk-body">@messages("result.guidance")</p>
+    <p class="govuk-body">@messages("result.guidance.p1")</p>
+
+    <p class="govuk-body">
+        @messages("result.guidance.p2")
+        <a href="@messages("result.guidance.link.href")" class="govuk-link">@messages("result.guidance.link.text")</a>.
+    </p>
 
     @govukSummaryList(viewModel.summaryList)
 
