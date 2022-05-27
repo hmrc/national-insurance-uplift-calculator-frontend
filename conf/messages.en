@@ -97,6 +97,7 @@ result.title = Result
 result.heading.noDifference = You are estimated to have no change
 result.heading.lessNiDue = You are estimated to pay {0} less
 result.heading.moreNiDue = You are estimated to pay {0} more
+result.h2 = Your estimated National Insurance contribution summary
 result.guidance.p1 = This result is an estimate based on the information you gave us not changing from 6th July 2021 until 5th July 2023.
 result.guidance.p2 = Find out more about the
 result.guidance.link.text = recent changes to NICs
