@@ -17,7 +17,8 @@
 package controllers
 
 import controllers.actions._
-import models.Calculation
+import models.{Calculation, EmployedCalculation, SelfEmployedCalculation}
+import models.EmploymentStatus.{Employed, SelfEmployed}
 import pages.{EmploymentStatusPage, SalaryPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -41,7 +42,11 @@ class ResultController @Inject()(
       (request.userAnswers.get(EmploymentStatusPage), request.userAnswers.get(SalaryPage)) match {
         case (Some(employmentStatus), Some(salary)) =>
 
-          val calculation = Calculation(employmentStatus, salary)
+          val calculation: Calculation = employmentStatus match {
+            case Employed     => EmployedCalculation(salary)
+            case SelfEmployed => SelfEmployedCalculation.aprilToApril(salary)
+          }
+
           val viewModel   = ResultViewModel(calculation)
 
           Ok(view(viewModel))

@@ -46,7 +46,11 @@
         <a href="@messages("result.guidance.link.href")" class="govuk-link">@messages("result.guidance.link.text")</a>.
     </p>
 
-    @govukSummaryList(viewModel.summaryList)
+    <h2 class="govuk-heading-m">@messages("result.h2")</h2>
+
+    <div class="results">
+        @govukSummaryList(viewModel.summaryList)
+    </div>
 
     <a href="@routes.EmploymentStatusController.onPageLoad(NormalMode)" class="govuk-button">
         @messages("site.startAgain")
