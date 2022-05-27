@@ -23,7 +23,11 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist.{SummaryList, Summ
 import viewmodels.govuk.summarylist._
 import viewmodels.implicits._
 
+import java.time.format.DateTimeFormatter
+
 case class ResultViewModel(calculation: Calculation)(implicit messages: Messages) {
+
+  private val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy")
 
   private val rows: List[SummaryListRow] = List(
     SummaryListRowViewModel(
@@ -37,13 +41,13 @@ case class ResultViewModel(calculation: Calculation)(implicit messages: Messages
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = "result.ni21_22",
-      value  = ValueViewModel(currencyFormat(calculation.ni21_22)),
+      key    = messages("result.period", calculation.period1.firstDay.format(dateFormatter), calculation.period1.lastDay.format(dateFormatter)),
+      value  = ValueViewModel(currencyFormat(calculation.period1.estimatedNic)),
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = "result.ni22_23",
-      value  = ValueViewModel(currencyFormat(calculation.ni22_23)),
+      key    = messages("result.period", calculation.period2.firstDay.format(dateFormatter), calculation.period2.lastDay.format(dateFormatter)),
+      value  = ValueViewModel(currencyFormat(calculation.period2.estimatedNic)),
       actions = Nil
     )
   )

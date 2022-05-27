@@ -94,9 +94,9 @@ salary.selfEmployed.error.aboveMaximum = Annual income must be £1,000,000 or le
 salary.selfEmployed.change.hidden = your annual income
 
 result.title = Result
-result.heading.noDifference = You are estimated to have no change to your National Insurance contributions (NICs)
-result.heading.lessNiDue = You are estimated to pay {0} less in National Insurance contributions (NICs)
-result.heading.moreNiDue = You are estimated to pay {0} more in National Insurance contributions (NICs)
+result.heading.noDifference = You are estimated to have no change
+result.heading.lessNiDue = You are estimated to pay {0} less
+result.heading.moreNiDue = You are estimated to pay {0} more
 result.guidance.p1 = This result is an estimate based on the information you gave us not changing from 6th July 2021 until 5th July 2023.
 result.guidance.p2 = Find out more about the
 result.guidance.link.text = recent changes to NICs
@@ -105,8 +105,7 @@ result.employmentStatus = Employment status
 result.employed.annualSalary = Annual salary
 result.selfEmployed.annualSalary = Annual income
 result.annualSalary.hint = (You told us this)
-result.ni21_22 = NICs due from 6 July 2021 to 5 July 2022
-result.ni22_23 = NICs due from 6 July 2022 to 5 July 2023
+result.period = NICs due from {0} to {1}
 
 employmentStatus.title = Are you employed or self-employed?
 employmentStatus.heading = Are you employed or self-employed?

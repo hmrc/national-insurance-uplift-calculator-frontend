@@ -16,11 +16,10 @@
 
 package models
 
-trait Calculation {
+import java.time.LocalDate
 
-  val annualSalary: BigDecimal
-  val period1: Period
-  val period2: Period
-  val saving: BigDecimal
-  val employmentStatus: EmploymentStatus
-}
+case class Period(
+                   firstDay: LocalDate,
+                   lastDay: LocalDate,
+                   estimatedNic: BigDecimal
+                 )
