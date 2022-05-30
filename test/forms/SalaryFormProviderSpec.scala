@@ -18,7 +18,6 @@ package forms
 
 import config.CurrencyFormatter
 import forms.behaviours.CurrencyFieldBehaviours
-import models.EmploymentStatus
 import org.scalacheck.Gen
 import play.api.data.FormError
 
@@ -26,15 +25,14 @@ import scala.math.BigDecimal.RoundingMode
 
 class SalaryFormProviderSpec extends CurrencyFieldBehaviours {
 
-  private val employmentStatus = EmploymentStatus.Employed
-  private val form = new SalaryFormProvider()(employmentStatus)
+  private val form = new SalaryFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
 
     val minimum = BigDecimal(1)
-    val maximum = BigDecimal(1000000)
+    val maximum = BigDecimal(1000000000)
 
     val validDataGenerator =
       Gen.choose[BigDecimal](minimum, maximum)
@@ -50,28 +48,28 @@ class SalaryFormProviderSpec extends CurrencyFieldBehaviours {
     behave like currencyField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "salary.employed.error.nonNumeric"),
-      invalidNumericError = FormError(fieldName, "salary.employed.error.invalidNumeric")
+      nonNumericError  = FormError(fieldName, "salary.error.nonNumeric"),
+      invalidNumericError = FormError(fieldName, "salary.error.invalidNumeric")
     )
 
     behave like currencyFieldWithMinimum(
       form,
       fieldName,
       minimum,
-      FormError(fieldName, "salary.employed.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
+      FormError(fieldName, "salary.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
     )
 
     behave like currencyFieldWithMaximum(
       form,
       fieldName,
       maximum,
-      FormError(fieldName, "salary.employed.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
+      FormError(fieldName, "salary.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, "salary.employed.error.required")
+      requiredError = FormError(fieldName, "salary.error.required")
     )
   }
 }

@@ -72,15 +72,15 @@ signedOut.guidance = We did not save your answers.
 unauthorised.title = You can’t access this service with this account
 unauthorised.heading = You can’t access this service with this account
 
-salary.employed.title = What is your annual salary?
-salary.employed.heading = What is your annual salary?
-salary.employed.checkYourAnswersLabel = Annual salary
-salary.employed.error.nonNumeric = Enter your annual salary using numbers
-salary.employed.error.required = Enter your annual salary
-salary.employed.error.invalidNumeric = Enter your annual salary using up to two decimal places
-salary.employed.error.belowMinimum = Annual salary must be at least £1
-salary.employed.error.aboveMaximum = Annual salary must be £1,000,000 or less
-salary.employed.change.hidden = your annual salary
+salary.title = What is your annual salary?
+salary.heading = What is your annual salary?
+salary.checkYourAnswersLabel = Annual salary
+salary.error.nonNumeric = Enter your annual salary using numbers
+salary.error.required = Enter your annual salary
+salary.error.invalidNumeric = Enter your annual salary using up to two decimal places
+salary.error.belowMinimum = Annual salary must be at least £1
+salary.error.aboveMaximum = Annual salary must be £1,000,000 or less
+salary.change.hidden = your annual salary
 
 result.title = Result
 result.heading = Your estimated National Insurance (NI) contributions changes

@@ -20,7 +20,7 @@ import controllers.actions._
 import forms.SalaryFormProvider
 import models.Mode
 import navigation.Navigator
-import pages.{EmploymentStatusPage, SalaryPage}
+import pages.SalaryPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
@@ -42,42 +42,34 @@ class SalaryController @Inject()(
                                   view: SalaryView
                                 )(implicit ec: ExecutionContext)
   extends FrontendBaseController
-    with I18nSupport
-    with AnswerExtractor {
+    with I18nSupport {
+
+  private val form = formProvider()
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      getAnswer(EmploymentStatusPage) {
-        employmentStatus =>
 
-          val form = formProvider(employmentStatus)
-
-          val preparedForm = request.userAnswers.get(SalaryPage) match {
-            case None => form
-            case Some(value) => form.fill(value)
-          }
-
-          Ok(view(preparedForm, mode, employmentStatus))
+      val preparedForm = request.userAnswers.get(SalaryPage) match {
+        case None => form
+        case Some(value) => form.fill(value)
       }
+
+      Ok(view(preparedForm, mode))
   }
 
   def onSubmit(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData).async {
     implicit request =>
-      getAnswerAsync(EmploymentStatusPage) {
-        employmentStatus =>
 
-          val form = formProvider(employmentStatus)
+      form.bindFromRequest().fold(
+        formWithErrors =>
+          Future.successful(BadRequest(view(formWithErrors, mode))),
 
-          form.bindFromRequest().fold(
-            formWithErrors =>
-              Future.successful(BadRequest(view(formWithErrors, mode, employmentStatus))),
+        value =>
+          for {
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
+            _ <- sessionRepository.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
+      )
 
-            value =>
-              for {
-                updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
-                _ <- sessionRepository.set(updatedAnswers)
-              } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
-          )
-        }
   }
 }
