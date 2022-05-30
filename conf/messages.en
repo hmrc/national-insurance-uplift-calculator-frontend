@@ -79,7 +79,7 @@ salary.error.nonNumeric = Enter your annual salary using numbers
 salary.error.required = Enter your annual salary
 salary.error.invalidNumeric = Enter your annual salary using up to two decimal places
 salary.error.belowMinimum = Annual salary must be at least £1
-salary.error.aboveMaximum = Annual salary must be £1,000,000 or less
+salary.error.aboveMaximum = Annual salary must be £1,000,000,000 or less
 salary.change.hidden = your annual salary
 
 result.title = Result
