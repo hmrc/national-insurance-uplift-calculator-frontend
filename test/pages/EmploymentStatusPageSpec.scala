@@ -16,10 +16,10 @@
 
 package pages
 
-import models.EmploymentStatus
+import models.{EmploymentStatus, UserAnswers}
 import pages.behaviours.PageBehaviours
 
-class EmploymentStatusSpec extends PageBehaviours {
+class EmploymentStatusPageSpec extends PageBehaviours {
 
   "EmploymentStatusPage" - {
 
@@ -28,5 +28,31 @@ class EmploymentStatusSpec extends PageBehaviours {
     beSettable[EmploymentStatus](EmploymentStatusPage)
 
     beRemovable[EmploymentStatus](EmploymentStatusPage)
+
+    "must remove Annual Income when the answer is Employed" in {
+
+      val answers =
+        UserAnswers("id")
+          .set(AnnualIncomePage, BigDecimal(1)).success.value
+          .set(SalaryPage, BigDecimal(1)).success.value
+
+      val result = answers.set(EmploymentStatusPage, EmploymentStatus.Employed).success.value
+
+      result.get(SalaryPage) mustBe defined
+      result.get(AnnualIncomePage) must not be defined
+    }
+
+    "must remove Salary when the answer is Self Employed" in {
+
+      val answers =
+        UserAnswers("id")
+          .set(AnnualIncomePage, BigDecimal(1)).success.value
+          .set(SalaryPage, BigDecimal(1)).success.value
+
+      val result = answers.set(EmploymentStatusPage, EmploymentStatus.SelfEmployed).success.value
+
+      result.get(SalaryPage) must not be defined
+      result.get(AnnualIncomePage) mustBe defined
+    }
   }
 }

@@ -17,39 +17,37 @@
 package controllers
 
 import controllers.actions._
-import forms.SalaryFormProvider
+import forms.AnnualIncomeFormProvider
+import javax.inject.Inject
 import models.Mode
 import navigation.Navigator
-import pages.SalaryPage
+import pages.AnnualIncomePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import repositories.SessionRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.SalaryView
+import views.html.AnnualIncomeView
 
-import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SalaryController @Inject()(
-                                  override val messagesApi: MessagesApi,
-                                  sessionRepository: SessionRepository,
-                                  navigator: Navigator,
-                                  identify: IdentifierAction,
-                                  getData: DataRetrievalAction,
-                                  requireData: DataRequiredAction,
-                                  formProvider: SalaryFormProvider,
-                                  val controllerComponents: MessagesControllerComponents,
-                                  view: SalaryView
-                                )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
-    with I18nSupport {
+class AnnualIncomeController @Inject()(
+                                        override val messagesApi: MessagesApi,
+                                        sessionRepository: SessionRepository,
+                                        navigator: Navigator,
+                                        identify: IdentifierAction,
+                                        getData: DataRetrievalAction,
+                                        requireData: DataRequiredAction,
+                                        formProvider: AnnualIncomeFormProvider,
+                                        val controllerComponents: MessagesControllerComponents,
+                                        view: AnnualIncomeView
+                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider()
+  val form = formProvider()
 
   def onPageLoad(mode: Mode): Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
 
-      val preparedForm = request.userAnswers.get(SalaryPage) match {
+      val preparedForm = request.userAnswers.get(AnnualIncomePage) match {
         case None => form
         case Some(value) => form.fill(value)
       }
@@ -66,10 +64,9 @@ class SalaryController @Inject()(
 
         value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(SalaryPage, value))
-            _ <- sessionRepository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(SalaryPage, mode, updatedAnswers))
+            updatedAnswers <- Future.fromTry(request.userAnswers.set(AnnualIncomePage, value))
+            _              <- sessionRepository.set(updatedAnswers)
+          } yield Redirect(navigator.nextPage(AnnualIncomePage, mode, updatedAnswers))
       )
-
   }
 }

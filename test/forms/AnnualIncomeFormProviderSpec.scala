@@ -18,26 +18,20 @@ package forms
 
 import config.CurrencyFormatter
 import forms.behaviours.CurrencyFieldBehaviours
-import org.scalacheck.Gen
 import play.api.data.FormError
 
-import scala.math.BigDecimal.RoundingMode
+class AnnualIncomeFormProviderSpec extends CurrencyFieldBehaviours {
 
-class SalaryFormProviderSpec extends CurrencyFieldBehaviours {
-
-  private val form = new SalaryFormProvider()()
+  val form = new AnnualIncomeFormProvider()()
 
   ".value" - {
 
     val fieldName = "value"
 
-    val minimum = BigDecimal(1)
-    val maximum = BigDecimal(1000000000)
+    val minimum = 1
+    val maximum = 1000000000
 
-    val validDataGenerator =
-      Gen.choose[BigDecimal](minimum, maximum)
-        .map(_.setScale(2, RoundingMode.HALF_UP))
-        .map(_.toString)
+    val validDataGenerator = intsInRangeWithCommas(minimum, maximum)
 
     behave like fieldThatBindsValidData(
       form,
@@ -48,28 +42,28 @@ class SalaryFormProviderSpec extends CurrencyFieldBehaviours {
     behave like currencyField(
       form,
       fieldName,
-      nonNumericError  = FormError(fieldName, "salary.error.nonNumeric"),
-      invalidNumericError = FormError(fieldName, "salary.error.invalidNumeric")
+      nonNumericError  = FormError(fieldName, "annualIncome.error.nonNumeric"),
+      invalidNumericError = FormError(fieldName, "annualIncome.error.invalidNumeric")
     )
 
     behave like currencyFieldWithMinimum(
       form,
       fieldName,
       minimum,
-      FormError(fieldName, "salary.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
+      FormError(fieldName, "annualIncome.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
     )
 
     behave like currencyFieldWithMaximum(
       form,
       fieldName,
       maximum,
-      FormError(fieldName, "salary.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
+      FormError(fieldName, "annualIncome.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
     )
 
     behave like mandatoryField(
       form,
       fieldName,
-      requiredError = FormError(fieldName, "salary.error.required")
+      requiredError = FormError(fieldName, "annualIncome.error.required")
     )
   }
 }

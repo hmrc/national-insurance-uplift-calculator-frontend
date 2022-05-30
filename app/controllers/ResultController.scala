@@ -19,7 +19,7 @@ package controllers
 import controllers.actions._
 import models.{Calculation, EmployedCalculation, SelfEmployedCalculation}
 import models.EmploymentStatus.{Employed, SelfEmployed}
-import pages.{EmploymentStatusPage, SalaryPage}
+import pages.{AnnualIncomePage, EmploymentStatusPage, SalaryPage}
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -39,19 +39,18 @@ class ResultController @Inject()(
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
     implicit request =>
-      (request.userAnswers.get(EmploymentStatusPage), request.userAnswers.get(SalaryPage)) match {
-        case (Some(employmentStatus), Some(salary)) =>
 
-          val calculation: Calculation = employmentStatus match {
-            case Employed     => EmployedCalculation(salary)
-            case SelfEmployed => SelfEmployedCalculation.aprilToApril(salary)
-          }
+      request.userAnswers.get(EmploymentStatusPage).flatMap {
+        case Employed =>
+          request.userAnswers.get(SalaryPage).map(EmployedCalculation(_))
 
-          val viewModel   = ResultViewModel(calculation)
+        case SelfEmployed =>
+          request.userAnswers.get(AnnualIncomePage).map(SelfEmployedCalculation.aprilToApril(_))
+      }.map {
+        calculation: Calculation =>
+          val viewModel = ResultViewModel(calculation)
 
           Ok(view(viewModel))
-
-        case _ => Redirect(routes.JourneyRecoveryController.onPageLoad())
-      }
+      }.getOrElse(Redirect(routes.JourneyRecoveryController.onPageLoad()))
   }
 }

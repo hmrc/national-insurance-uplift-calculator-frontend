@@ -24,13 +24,13 @@ import play.api.data.Form
 
 class SalaryFormProvider @Inject() extends Mappings {
 
-  def apply(employmentStatus: EmploymentStatus): Form[BigDecimal] =
+  def apply(): Form[BigDecimal] =
     Form(
       "value" -> currency(
-        s"salary.${employmentStatus.toString}.error.required",
-        s"salary.${employmentStatus.toString}.error.invalidNumeric",
-        s"salary.${employmentStatus.toString}.error.nonNumeric")
-          .verifying(minimumCurrency(1, s"salary.${employmentStatus.toString}.error.belowMinimum"))
-          .verifying(maximumCurrency(1000000, s"salary.${employmentStatus.toString}.error.aboveMaximum"))
+        s"salary.error.required",
+        s"salary.error.invalidNumeric",
+        s"salary.error.nonNumeric")
+          .verifying(minimumCurrency(1, s"salary.error.belowMinimum"))
+          .verifying(maximumCurrency(1000000000, s"salary.error.aboveMaximum"))
     )
 }

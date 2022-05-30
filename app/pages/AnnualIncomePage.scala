@@ -16,21 +16,11 @@
 
 package pages
 
-import models.EmploymentStatus.{Employed, SelfEmployed}
-import models.{EmploymentStatus, UserAnswers}
 import play.api.libs.json.JsPath
 
-import scala.util.Try
-
-case object EmploymentStatusPage extends QuestionPage[EmploymentStatus] {
+case object AnnualIncomePage extends QuestionPage[BigDecimal] {
 
   override def path: JsPath = JsPath \ toString
 
-  override def toString: String = "employmentStatus"
-
-  override def cleanup(value: Option[EmploymentStatus], userAnswers: UserAnswers): Try[UserAnswers] =
-    userAnswers.get(EmploymentStatusPage).map {
-      case Employed     => userAnswers.remove(AnnualIncomePage)
-      case SelfEmployed => userAnswers.remove(SalaryPage)
-    }.getOrElse(super.cleanup(value, userAnswers))
+  override def toString: String = "annualIncome"
 }

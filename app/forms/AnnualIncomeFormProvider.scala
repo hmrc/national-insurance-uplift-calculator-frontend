@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package generators
+package forms
 
-import org.scalacheck.Arbitrary
-import pages._
+import forms.mappings.Mappings
+import javax.inject.Inject
+import play.api.data.Form
 
-trait PageGenerators {
+class AnnualIncomeFormProvider @Inject() extends Mappings {
 
-  implicit lazy val arbitraryAnnualIncomePage: Arbitrary[AnnualIncomePage.type] =
-    Arbitrary(AnnualIncomePage)
-
-  implicit lazy val arbitraryEmploymentStatusPage: Arbitrary[EmploymentStatusPage.type] =
-    Arbitrary(EmploymentStatusPage)
-
-  implicit lazy val arbitrarySalaryPage: Arbitrary[SalaryPage.type] =
-    Arbitrary(SalaryPage)
+  def apply(): Form[BigDecimal] =
+    Form(
+      "value" -> currency(
+        "annualIncome.error.required",
+        "annualIncome.error.invalidNumeric",
+        "annualIncome.error.nonNumeric")
+          .verifying(minimumCurrency(1, s"annualIncome.error.belowMinimum"))
+          .verifying(maximumCurrency(1000000000, s"annualIncome.error.aboveMaximum"))
+    )
 }
