@@ -16,10 +16,11 @@
 
 package forms
 
-import forms.behaviours.IntFieldBehaviours
+import config.CurrencyFormatter
+import forms.behaviours.CurrencyFieldBehaviours
 import play.api.data.FormError
 
-class AnnualIncomeFormProviderSpec extends IntFieldBehaviours {
+class AnnualIncomeFormProviderSpec extends CurrencyFieldBehaviours {
 
   val form = new AnnualIncomeFormProvider()()
 
@@ -38,19 +39,25 @@ class AnnualIncomeFormProviderSpec extends IntFieldBehaviours {
       validDataGenerator
     )
 
-    behave like intField(
+    behave like currencyField(
       form,
       fieldName,
       nonNumericError  = FormError(fieldName, "annualIncome.error.nonNumeric"),
-      wholeNumberError = FormError(fieldName, "annualIncome.error.wholeNumber")
+      invalidNumericError = FormError(fieldName, "annualIncome.error.invalidNumeric")
     )
 
-    behave like intFieldWithRange(
+    behave like currencyFieldWithMinimum(
       form,
       fieldName,
-      minimum       = minimum,
-      maximum       = maximum,
-      expectedError = FormError(fieldName, "annualIncome.error.outOfRange", Seq(minimum, maximum))
+      minimum,
+      FormError(fieldName, "annualIncome.error.belowMinimum", Seq(CurrencyFormatter.currencyFormat(minimum)))
+    )
+
+    behave like currencyFieldWithMaximum(
+      form,
+      fieldName,
+      maximum,
+      FormError(fieldName, "annualIncome.error.aboveMaximum", Seq(CurrencyFormatter.currencyFormat(maximum)))
     )
 
     behave like mandatoryField(

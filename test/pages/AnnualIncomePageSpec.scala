@@ -22,10 +22,10 @@ class AnnualIncomePageSpec extends PageBehaviours {
 
   "AnnualIncomePage" - {
 
-    beRetrievable[Int](AnnualIncomePage)
+    beRetrievable[BigDecimal](AnnualIncomePage)
 
-    beSettable[Int](AnnualIncomePage)
+    beSettable[BigDecimal](AnnualIncomePage)
 
-    beRemovable[Int](AnnualIncomePage)
+    beRemovable[BigDecimal](AnnualIncomePage)
   }
 }
