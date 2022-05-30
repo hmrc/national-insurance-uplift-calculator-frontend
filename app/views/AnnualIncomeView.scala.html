@@ -24,11 +24,11 @@
     govukButton: GovukButton
 )
 
-@(form: Form[_], mode: Mode, employmentStatus: EmploymentStatus)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], mode: Mode)(implicit request: Request[_], messages: Messages)
 
-@layout(pageTitle = title(form, messages(s"salary.${employmentStatus.toString}.title"))) {
+@layout(pageTitle = title(form, messages("annualIncome.title"))) {
 
-    @formHelper(action = routes.SalaryController.onSubmit(mode), 'autoComplete -> "off") {
+    @formHelper(action = routes.AnnualIncomeController.onSubmit(mode), 'autoComplete -> "off") {
 
         @if(form.errors.nonEmpty) {
             @govukErrorSummary(ErrorSummaryViewModel(form))
@@ -37,11 +37,10 @@
         @govukInput(
             InputViewModel(
                 field = form("value"),
-                label = LabelViewModel(messages(s"salary.${employmentStatus.toString}.heading")).asPageHeading()
+                label = LabelViewModel(messages("annualIncome.heading")).asPageHeading()
             )
             .asNumeric()
             .withWidth(Fixed10)
-            .withPrefix(PrefixOrSuffix(content = "£"))
         )
 
         @govukButton(

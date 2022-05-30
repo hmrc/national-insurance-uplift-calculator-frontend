@@ -20,14 +20,19 @@ GET         /account/signed-out                          controllers.auth.Signed
 
 GET         /unauthorised                                controllers.UnauthorisedController.onPageLoad
 
-GET        /salary                  controllers.SalaryController.onPageLoad(mode: Mode = NormalMode)
-POST       /salary                  controllers.SalaryController.onSubmit(mode: Mode = NormalMode)
-GET        /change-salary                        controllers.SalaryController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-salary                        controllers.SalaryController.onSubmit(mode: Mode = CheckMode)
+GET        /annual-salary                                controllers.SalaryController.onPageLoad(mode: Mode = NormalMode)
+POST       /annual-salary                                controllers.SalaryController.onSubmit(mode: Mode = NormalMode)
+GET        /change-annual-salary                         controllers.SalaryController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-annual-salary                         controllers.SalaryController.onSubmit(mode: Mode = CheckMode)
 
-GET        /result                       controllers.ResultController.onPageLoad()
+GET        /employment-status                            controllers.EmploymentStatusController.onPageLoad(mode: Mode = NormalMode)
+POST       /employment-status                            controllers.EmploymentStatusController.onSubmit(mode: Mode = NormalMode)
+GET        /change-employment-status                     controllers.EmploymentStatusController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-employment-status                     controllers.EmploymentStatusController.onSubmit(mode: Mode = CheckMode)
 
-GET        /employment-status                        controllers.EmploymentStatusController.onPageLoad(mode: Mode = NormalMode)
-POST       /employment-status                        controllers.EmploymentStatusController.onSubmit(mode: Mode = NormalMode)
-GET        /change-employment-status                  controllers.EmploymentStatusController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-employment-status                  controllers.EmploymentStatusController.onSubmit(mode: Mode = CheckMode)
+GET        /result                                       controllers.ResultController.onPageLoad()
+
+GET        /annual-income                                controllers.AnnualIncomeController.onPageLoad(mode: Mode = NormalMode)
+POST       /annual-income                                controllers.AnnualIncomeController.onSubmit(mode: Mode = NormalMode)
+GET        /change-annual-income                         controllers.AnnualIncomeController.onPageLoad(mode: Mode = CheckMode)
+POST       /change-annual-income                         controllers.AnnualIncomeController.onSubmit(mode: Mode = CheckMode)

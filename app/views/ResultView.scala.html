@@ -27,8 +27,10 @@
 
 @layout(pageTitle = titleNoForm(messages("result.title"))) {
 
+    <h1 class="govuk-heading-xl">@messages("result.heading")</h1>
+
     <div class="govuk-panel govuk-panel--confirmation text-overflow">
-        <h1 class="govuk-panel__title">
+        <h2 class="govuk-panel__title">
             @if(viewModel.calculation.saving == 0) {
                 @messages("result.heading.noDifference")
             } else if(viewModel.calculation.saving < 0) {
@@ -36,7 +38,7 @@
             } else {
                 @messages("result.heading.lessNiDue", Html(currencyFormat(viewModel.calculation.saving)).toString)
             }
-        </h1>
+        </h2>
     </div>
 
     <p class="govuk-body">@messages("result.guidance.p1")</p>
