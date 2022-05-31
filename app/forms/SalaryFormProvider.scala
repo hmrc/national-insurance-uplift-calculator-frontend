@@ -17,10 +17,9 @@
 package forms
 
 import forms.mappings.Mappings
-import models.EmploymentStatus
+import play.api.data.Form
 
 import javax.inject.Inject
-import play.api.data.Form
 
 class SalaryFormProvider @Inject() extends Mappings {
 

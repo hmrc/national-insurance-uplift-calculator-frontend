@@ -25,14 +25,4 @@ POST       /annual-salary                                controllers.SalaryContr
 GET        /change-annual-salary                         controllers.SalaryController.onPageLoad(mode: Mode = CheckMode)
 POST       /change-annual-salary                         controllers.SalaryController.onSubmit(mode: Mode = CheckMode)
 
-GET        /employment-status                            controllers.EmploymentStatusController.onPageLoad(mode: Mode = NormalMode)
-POST       /employment-status                            controllers.EmploymentStatusController.onSubmit(mode: Mode = NormalMode)
-GET        /change-employment-status                     controllers.EmploymentStatusController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-employment-status                     controllers.EmploymentStatusController.onSubmit(mode: Mode = CheckMode)
-
-GET        /result                                       controllers.ResultController.onPageLoad()
-
-GET        /annual-income                                controllers.AnnualIncomeController.onPageLoad(mode: Mode = NormalMode)
-POST       /annual-income                                controllers.AnnualIncomeController.onSubmit(mode: Mode = NormalMode)
-GET        /change-annual-income                         controllers.AnnualIncomeController.onPageLoad(mode: Mode = CheckMode)
-POST       /change-annual-income                         controllers.AnnualIncomeController.onSubmit(mode: Mode = CheckMode)
+GET        /estimated-change                             controllers.ResultController.onPageLoad()

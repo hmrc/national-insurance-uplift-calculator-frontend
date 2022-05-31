@@ -21,12 +21,6 @@ import pages._
 
 trait PageGenerators {
 
-  implicit lazy val arbitraryAnnualIncomePage: Arbitrary[AnnualIncomePage.type] =
-    Arbitrary(AnnualIncomePage)
-
-  implicit lazy val arbitraryEmploymentStatusPage: Arbitrary[EmploymentStatusPage.type] =
-    Arbitrary(EmploymentStatusPage)
-
   implicit lazy val arbitrarySalaryPage: Arbitrary[SalaryPage.type] =
     Arbitrary(SalaryPage)
 }

@@ -16,7 +16,7 @@
 
 package models
 
-case class EmployedRates(
+case class Rates(
                           threshold: BigDecimal,
                           upperLimit: BigDecimal,
                           mainRate: BigDecimal,
@@ -25,21 +25,21 @@ case class EmployedRates(
 
 object EmployedTaxYearRates {
 
-  val july21March22Rates: EmployedRates = EmployedRates(
+  val july21March22Rates: Rates = Rates(
     threshold  = BigDecimal(797),
     upperLimit = BigDecimal(4189),
     mainRate   = BigDecimal(0.12),
     upperRate  = BigDecimal(0.02)
   )
 
-  val april22June22Rates: EmployedRates = EmployedRates(
+  val april22June22Rates: Rates = Rates(
     threshold  = BigDecimal(823),
     upperLimit = BigDecimal(4189),
     mainRate   = BigDecimal(0.1325),
     upperRate  = BigDecimal(0.0325)
   )
 
-  val july22June23Rates: EmployedRates = EmployedRates(
+  val july22June23Rates: Rates = Rates(
     threshold  = BigDecimal(1048),
     upperLimit = BigDecimal(4189),
     mainRate   = BigDecimal(0.1325),
