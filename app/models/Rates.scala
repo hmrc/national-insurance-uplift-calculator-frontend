@@ -23,7 +23,7 @@ case class Rates(
                           upperRate: BigDecimal
                         )
 
-object EmployedTaxYearRates {
+object TaxYearRates {
 
   val july21March22Rates: Rates = Rates(
     threshold  = BigDecimal(797),

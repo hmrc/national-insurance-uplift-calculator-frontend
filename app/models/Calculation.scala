@@ -16,7 +16,7 @@
 
 package models
 
-import EmployedTaxYearRates._
+import TaxYearRates._
 
 import java.time.LocalDate
 import scala.math.BigDecimal.RoundingMode.HALF_DOWN
