@@ -31,12 +31,7 @@ case class ResultViewModel(calculation: Calculation)(implicit messages: Messages
 
   private val rows: List[SummaryListRow] = List(
     SummaryListRowViewModel(
-      key     = "result.employmentStatus",
-      value   = ValueViewModel(messages(s"employmentStatus.${calculation.employmentStatus.toString}")),
-      actions = Nil
-    ),
-    SummaryListRowViewModel(
-      key     = s"result.${calculation.employmentStatus.toString}.annualSalary",
+      key     = s"result.annualSalary",
       value   = ValueViewModel(s"${currencyFormat(calculation.annualSalary)} ${messages("result.annualSalary.hint")}"),
       actions = Nil
     ),

@@ -27,36 +27,13 @@ import models._
 class Navigator @Inject()() {
 
   private val normalRoutes: Page => UserAnswers => Call = {
-    case EmploymentStatusPage => employmentStatusRoutes
     case SalaryPage           => _ => routes.ResultController.onPageLoad()
-    case AnnualIncomePage     => _ => routes.ResultController.onPageLoad()
     case _                    => _ => routes.IndexController.onPageLoad
   }
 
-  private def employmentStatusRoutes(answers: UserAnswers): Call = answers.get(EmploymentStatusPage).map {
-    case EmploymentStatus.Employed     => routes.SalaryController.onPageLoad(NormalMode)
-    case EmploymentStatus.SelfEmployed => routes.AnnualIncomeController.onPageLoad(NormalMode)
-  }.getOrElse(routes.JourneyRecoveryController.onPageLoad())
-
   private val checkRouteMap: Page => UserAnswers => Call = {
-    case EmploymentStatusPage => employmentStatusCheckRoutes
-    case _                    => _ => routes.CheckYourAnswersController.onPageLoad
+    case _ => _ => routes.CheckYourAnswersController.onPageLoad
   }
-
-  private def employmentStatusCheckRoutes(answers: UserAnswers): Call =
-    answers.get(EmploymentStatusPage).map {
-      case EmploymentStatus.Employed =>
-        answers.get(SalaryPage) match {
-          case Some(_) => routes.CheckYourAnswersController.onPageLoad
-          case None    => routes.SalaryController.onPageLoad(CheckMode)
-        }
-
-      case EmploymentStatus.SelfEmployed =>
-        answers.get(AnnualIncomePage) match {
-          case Some(_) => routes.CheckYourAnswersController.onPageLoad
-          case None    => routes.AnnualIncomeController.onPageLoad(CheckMode)
-        }
-    }.getOrElse(routes.JourneyRecoveryController.onPageLoad())
 
   def nextPage(page: Page, mode: Mode, userAnswers: UserAnswers): Call = mode match {
     case NormalMode =>

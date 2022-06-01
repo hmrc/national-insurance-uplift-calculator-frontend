@@ -18,8 +18,8 @@ package navigation
 
 import base.SpecBase
 import controllers.routes
-import pages._
 import models._
+import pages._
 
 class NavigatorSpec extends SpecBase {
 
@@ -35,32 +35,9 @@ class NavigatorSpec extends SpecBase {
         navigator.nextPage(UnknownPage, NormalMode, UserAnswers("id")) mustBe routes.IndexController.onPageLoad
       }
 
-      "must go from Employment Status" - {
-
-        import models.EmploymentStatus._
-
-        "to Salary when the result is Employed" in {
-
-          val answers = emptyUserAnswers.set(EmploymentStatusPage, Employed).success.value
-
-          navigator.nextPage(EmploymentStatusPage, NormalMode, answers) mustBe routes.SalaryController.onPageLoad(NormalMode)
-        }
-
-        "to Annual Income when the result is Self-employed" in {
-
-          val answers = emptyUserAnswers.set(EmploymentStatusPage, SelfEmployed).success.value
-
-          navigator.nextPage(EmploymentStatusPage, NormalMode, answers) mustBe routes.AnnualIncomeController.onPageLoad(NormalMode)
-        }
-      }
       "must go from Salary to Result" in {
 
         navigator.nextPage(SalaryPage, NormalMode, emptyUserAnswers) mustBe routes.ResultController.onPageLoad
-      }
-
-      "must go from Annual Income to Result" in {
-
-        navigator.nextPage(AnnualIncomePage, NormalMode, emptyUserAnswers) mustBe routes.ResultController.onPageLoad
       }
     }
 
@@ -70,51 +47,6 @@ class NavigatorSpec extends SpecBase {
 
         case object UnknownPage extends Page
         navigator.nextPage(UnknownPage, CheckMode, UserAnswers("id")) mustBe routes.CheckYourAnswersController.onPageLoad
-      }
-
-      "must go from Employment Status" - {
-
-        import models.EmploymentStatus._
-
-        "when the answer is Employed" - {
-
-          "to Check Your Answers when it has already been answered" in {
-
-            val answers =
-              emptyUserAnswers
-                .set(SalaryPage, BigDecimal(1)).success.value
-                .set(EmploymentStatusPage, Employed).success.value
-
-            navigator.nextPage(EmploymentStatusPage, CheckMode, answers) mustBe routes.CheckYourAnswersController.onPageLoad
-          }
-
-          "to Salary when it has not already been answered" in {
-
-            val answers = emptyUserAnswers.set(EmploymentStatusPage, Employed).success.value
-
-            navigator.nextPage(EmploymentStatusPage, CheckMode, answers) mustBe routes.SalaryController.onPageLoad(CheckMode)
-          }
-        }
-
-        "when the answer is Self-employed" - {
-
-          "to Check Your Answers when it has already been answered" in {
-
-            val answers =
-              emptyUserAnswers
-                .set(AnnualIncomePage, BigDecimal(1)).success.value
-                .set(EmploymentStatusPage, SelfEmployed).success.value
-
-            navigator.nextPage(EmploymentStatusPage, CheckMode, answers) mustBe routes.CheckYourAnswersController.onPageLoad
-          }
-
-          "to Annual Income when it has not already been answered" in {
-
-            val answers = emptyUserAnswers.set(EmploymentStatusPage, SelfEmployed).success.value
-
-            navigator.nextPage(EmploymentStatusPage, CheckMode, answers) mustBe routes.AnnualIncomeController.onPageLoad(CheckMode)
-          }
-        }
       }
     }
   }

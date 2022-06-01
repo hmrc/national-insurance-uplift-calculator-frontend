@@ -17,8 +17,8 @@
 package controllers
 
 import base.SpecBase
-import models.{EmployedCalculation, EmploymentStatus, SelfEmployedCalculation}
-import pages.{AnnualIncomePage, EmploymentStatusPage, SalaryPage}
+import models.Calculation
+import pages.SalaryPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.ResultViewModel
@@ -28,15 +28,11 @@ class ResultControllerSpec extends SpecBase {
 
   "Result Controller" - {
 
-    "must return OK and the correct view for a GET for the employed" in {
+    "must return OK and the correct view for a GET " in {
 
-      val salary           = BigDecimal(1)
-      val employmentStatus = EmploymentStatus.Employed
+      val salary = BigDecimal(1)
 
-      val answers =
-        emptyUserAnswers
-          .set(EmploymentStatusPage, employmentStatus).success.value
-          .set(SalaryPage, salary).success.value
+      val answers = emptyUserAnswers.set(SalaryPage, salary).success.value
 
       val application = applicationBuilder(userAnswers = Some(answers)).build()
 
@@ -46,33 +42,7 @@ class ResultControllerSpec extends SpecBase {
         val result = route(application, request).value
 
         val view        = application.injector.instanceOf[ResultView]
-        val calculation = EmployedCalculation(salary)
-        val viewModel   = ResultViewModel(calculation)(messages(application))
-
-        status(result) mustEqual OK
-        contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
-      }
-    }
-
-    "must return OK and the correct view for a GET for the self-employed" in {
-
-      val income           = BigDecimal(1)
-      val employmentStatus = EmploymentStatus.SelfEmployed
-
-      val answers =
-        emptyUserAnswers
-          .set(EmploymentStatusPage, employmentStatus).success.value
-          .set(AnnualIncomePage, income).success.value
-
-      val application = applicationBuilder(userAnswers = Some(answers)).build()
-
-      running(application) {
-        val request = FakeRequest(GET, routes.ResultController.onPageLoad().url)
-
-        val result = route(application, request).value
-
-        val view        = application.injector.instanceOf[ResultView]
-        val calculation = SelfEmployedCalculation.aprilToApril(income)
+        val calculation = Calculation(salary)
         val viewModel   = ResultViewModel(calculation)(messages(application))
 
         status(result) mustEqual OK

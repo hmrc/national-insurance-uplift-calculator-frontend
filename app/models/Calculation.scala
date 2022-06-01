@@ -16,11 +16,40 @@
 
 package models
 
-trait Calculation {
+import TaxYearRates._
 
-  val annualSalary: BigDecimal
-  val period1: Period
-  val period2: Period
-  val saving: BigDecimal
-  val employmentStatus: EmploymentStatus
+import java.time.LocalDate
+import scala.math.BigDecimal.RoundingMode.HALF_DOWN
+
+case class Calculation private(
+                                annualSalary: BigDecimal,
+                                period1: Period,
+                                period2: Period,
+                                saving: BigDecimal
+                              )
+
+object Calculation {
+
+  def apply(annualSalary: BigDecimal): Calculation = {
+
+    val monthlySalary = annualSalary / BigDecimal(12)
+
+    val july21March22Ni = monthlyNi(monthlySalary, july21March22Rates) * BigDecimal(9)
+    val april22June22Ni = monthlyNi(monthlySalary, april22June22Rates) * BigDecimal(3)
+    val july22June23Ni  = monthlyNi(monthlySalary, july22June23Rates)  * BigDecimal(12)
+
+    val period1 = Period(LocalDate.of(2021, 7, 6), LocalDate.of(2022, 7, 5), july21March22Ni + april22June22Ni)
+    val period2 = Period(LocalDate.of(2022, 7, 6), LocalDate.of(2023, 7, 5), july22June23Ni)
+    val saving  = (period1.estimatedNic - period2.estimatedNic).setScale(0, HALF_DOWN)
+
+    Calculation(annualSalary, period1, period2, saving)
+  }
+
+    private def monthlyNi(monthlySalary: BigDecimal, rates: Rates): BigDecimal = {
+
+      val primarySalary = (monthlySalary - rates.threshold).min(rates.upperLimit - rates.threshold).max(0)
+      val upperSalary   = (monthlySalary - rates.upperLimit).max(0)
+
+      (primarySalary * rates.mainRate).setScale(2, HALF_DOWN) + (upperSalary * rates.upperRate).setScale(2, HALF_DOWN)
+    }
 }

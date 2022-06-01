@@ -22,8 +22,4 @@ import org.scalacheck.{Arbitrary, Gen}
 
 trait ModelGenerators {
 
-  implicit lazy val arbitraryEmploymentStatus: Arbitrary[EmploymentStatus] =
-    Arbitrary {
-      Gen.oneOf(EmploymentStatus.values.toSeq)
-    }
 }
