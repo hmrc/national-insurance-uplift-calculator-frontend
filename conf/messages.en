@@ -1,4 +1,4 @@
-service.name = Estimate how the National Insurance contributions (NICs) changes affect you
+service.name = Estimate how the National Insurance (NI) contributions threshold change will affect you
 
 site.back = Back
 site.remove = Remove
@@ -35,8 +35,8 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = National Insurance calculator
-index.heading = National Insurance calculator
+index.title = Estimate how the National Insurance (NI) contributions threshold change will affect you
+index.heading = Estimate how the National Insurance (NI) contributions threshold change will affect you
 index.guidance.p1 = Use this tool to get an estimate on how much your National Insurance contributions (NICs) will be from 6 July 2022 to 5 July 2023, compared to 6 July 2021 to 5 July 2022.
 index.guidance.p2 = As of 6 April 2022 NICs have increased by 1.25 percentage points. To offset this, from 6 July 2022 the threshold for NICs is going up to £12,570.
 index.guidance.p3 = This tool will show the estimated impact of these two changes on your NICs.
