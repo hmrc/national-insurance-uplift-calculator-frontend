@@ -17,6 +17,7 @@
 package controllers
 
 import controllers.actions._
+import metrics.{MetricsService, Monitors}
 import models.Calculation
 import pages.SalaryPage
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -33,7 +34,8 @@ class ResultController @Inject()(
                                   getData: DataRetrievalAction,
                                   requireData: DataRequiredAction,
                                   val controllerComponents: MessagesControllerComponents,
-                                  view: ResultView
+                                  view: ResultView,
+                                  metricsService: MetricsService
                                 ) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = (identify andThen getData andThen requireData) {
@@ -42,6 +44,8 @@ class ResultController @Inject()(
       request.userAnswers.get(SalaryPage).map(Calculation(_))
         .map {
           calculation =>
+            metricsService.inc(Monitors.calculationOutcome(calculation.saving))
+
             val viewModel = ResultViewModel(calculation)
 
             Ok(view(viewModel))
