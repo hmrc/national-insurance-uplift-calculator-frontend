@@ -17,24 +17,34 @@
 package controllers
 
 import base.SpecBase
+import metrics.{MetricsService, Monitors}
 import models.Calculation
+import org.mockito.ArgumentMatchers.{eq => eqTo}
+import org.mockito.Mockito.{times, verify}
+import org.scalatestplus.mockito.MockitoSugar
 import pages.SalaryPage
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import viewmodels.ResultViewModel
 import views.html.ResultView
 
-class ResultControllerSpec extends SpecBase {
+class ResultControllerSpec extends SpecBase with MockitoSugar {
 
   "Result Controller" - {
 
-    "must return OK and the correct view for a GET " in {
+    "must return OK and the correct view for a GET, incrementing a metric counter" in {
+
+      val mockMetricsService = mock[MetricsService]
 
       val salary = BigDecimal(1)
 
       val answers = emptyUserAnswers.set(SalaryPage, salary).success.value
 
-      val application = applicationBuilder(userAnswers = Some(answers)).build()
+      val application =
+        applicationBuilder(userAnswers = Some(answers))
+          .overrides(bind[MetricsService].toInstance(mockMetricsService))
+          .build()
 
       running(application) {
         val request = FakeRequest(GET, routes.ResultController.onPageLoad().url)
@@ -47,6 +57,7 @@ class ResultControllerSpec extends SpecBase {
 
         status(result) mustEqual OK
         contentAsString(result) mustEqual view(viewModel)(request, messages(application)).toString
+        verify(mockMetricsService, times(1)).inc(eqTo(Monitors.calculationOutcome(calculation.saving)))
       }
     }
   }
