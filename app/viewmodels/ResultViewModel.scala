@@ -36,12 +36,12 @@ case class ResultViewModel(calculation: Calculation)(implicit messages: Messages
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = messages("result.period", calculation.period1.firstDay.format(dateFormatter), calculation.period1.lastDay.format(dateFormatter)),
+      key    = messages("result.period1", calculation.period1.firstDay.format(dateFormatter), calculation.period1.lastDay.format(dateFormatter)),
       value  = ValueViewModel(currencyFormat(calculation.period1.estimatedNic)),
       actions = Nil
     ),
     SummaryListRowViewModel(
-      key    = messages("result.period", calculation.period2.firstDay.format(dateFormatter), calculation.period2.lastDay.format(dateFormatter)),
+      key    = messages("result.period2", calculation.period2.firstDay.format(dateFormatter), calculation.period2.lastDay.format(dateFormatter)),
       value  = ValueViewModel(currencyFormat(calculation.period2.estimatedNic)),
       actions = Nil
     )
