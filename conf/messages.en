@@ -35,25 +35,6 @@ error.number = Please enter a valid number
 error.required = Please enter a value
 error.summary.title = There is a problem
 
-index.title = Estimate how the National Insurance  contributions changes will affect you
-index.heading = Estimate how the National Insurance contributions changes will affect you
-index.guidance.p1 = Use this tool to get an estimate of how the recent changes to National Insurance contributions (NICs) will affect you.
-index.guidance.p2 = On 6 July 2022, the National Insurance thresholds will increase. This means that you will be able to earn more money before you start paying NICs.
-index.guidance.p3 = For the majority of employees, this means that they will pay less National Insurance even after accounting for the introduction of the Health and Social Care Levy, which came into effect on 6 April 2022.
-index.guidance.p4.1 = This calculator will estimate how these two changes will affect you. Find out more about
-index.guidance.p4.link1.text = the changes to the Primary Threshold
-index.guidance.p4.link1.href = https://www.gov.uk/national-insurance/how-much-you-pay
-index.guidance.p4.2 = and the
-index.guidance.p4.link2.text = Health and Social Care Levy
-index.guidance.p4.link2.href = https://www.gov.uk/guidance/prepare-for-the-health-and-social-care-levy
-index.guidance.p5 = This tool is for people who are employed and are paid the same amount monthly by their employer through the PAYE system and will not provide an accurate result if you have different working arrangements. This tool does not provide an accurate calculation of your NICs liability.
-index.guidance.beforeYouStart = Before you start
-index.guidance.beforeYouStart.p1 = You will not get a representative result from this tool in certain circumstances, including if, in the time period 6 July 2021 to 5 July 2023:
-index.guidance.beforeYouStart.bullet1 = You aren’t liable to pay the main rate of UK Class 1 NICs at the standard rate on your earnings or profits. For example, you are over state pension age, you are self-employed, you pay the reduced rate or you work outside the UK.
-index.guidance.beforeYouStart.bullet2 = You have more than one employer and/or you are not evenly paid all of your earnings in a monthly payment. For example, you get a bonus, you are paid commission or you are paid weekly.
-index.guidance.beforeYouStart.bullet3 = There is or will be a change in your circumstances which affects the amounts of UK NICs you pay in the period. For example, you get a pay rise or change employers.
-index.guidance.beforeYouStart.bullet4 = You’re a director.
-
 checkYourAnswers.title = Check Your Answers
 checkYourAnswers.heading = Check Your Answers
 
@@ -62,7 +43,7 @@ journeyRecovery.continue.heading = Sorry, there is a problem with the service
 journeyRecovery.continue.guidance = [Add content to explain how to proceed.]
 journeyRecovery.startAgain.title = Sorry, there is a problem with the service
 journeyRecovery.startAgain.heading = Sorry, there is a problem with the service
-journeyRecovery.startAgain.guidance = [Add content to explain why the user needs to start again.]
+journeyRecovery.startAgain.guidance = You will need to start again.
 
 signedOut.title = For your security, we signed you out
 signedOut.heading = For your security, we signed you out
