@@ -80,6 +80,7 @@ result.period2 = Estimated NICs and Health and Social Care Levy due from {0} to 
 
 index.title = Estimate how the National Insurance contributions changes will affect you
 index.heading = Estimate how the National Insurance contributions changes will affect you
+index.lede = Use this tool to get an estimate of how the changes to National Insurance contributions will affect you.
 index.guidance.p1 = From 6 July 2022, as an employee you will be able to earn more before you start paying National Insurance. This means you may pay less tax, after accounting for the recent Health and Social Care Levy.
 index.guidance.p2.1 = This tool will estimate how the changes to the
 index.guidance.p2.link1.text = Primary Threshold
