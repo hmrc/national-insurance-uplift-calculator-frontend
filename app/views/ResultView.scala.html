@@ -41,6 +41,12 @@
         </h2>
     </div>
 
+    <h2 class="govuk-heading-m">@messages("result.h2")</h2>
+
+    <div class="results">
+        @govukSummaryList(viewModel.summaryList)
+    </div>
+
     <p class="govuk-body">@messages("result.guidance.p1")</p>
     <p class="govuk-body">@messages("result.guidance.p2")</p>
 
@@ -48,12 +54,6 @@
         @messages("result.guidance.p3")
         <a href="@messages("result.guidance.link.href")" class="govuk-link">@messages("result.guidance.link.text")</a>.
     </p>
-
-    <h2 class="govuk-heading-m">@messages("result.h2")</h2>
-
-    <div class="results">
-        @govukSummaryList(viewModel.summaryList)
-    </div>
 
     <a href="@routes.SalaryController.onPageLoad(NormalMode)" class="govuk-button">
         @messages("site.startAgain")
