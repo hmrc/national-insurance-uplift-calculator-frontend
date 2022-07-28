@@ -5,7 +5,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 lazy val appName: String = "national-insurance-uplift-calculator-frontend"
-val silencerVersion = "1.6.0"
+val silencerVersion = "1.7.1"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtAutoBuildPlugin, SbtDistributablesPlugin)
@@ -19,7 +19,7 @@ lazy val root = (project in file("."))
   .settings(majorVersion := 0)
   .settings(useSuperShell in ThisBuild := false)
   .settings(
-    scalaVersion := "2.12.10",
+    scalaVersion := "2.12.12",
     name := appName,
     RoutesKeys.routesImport ++= Seq(
       "models._",
