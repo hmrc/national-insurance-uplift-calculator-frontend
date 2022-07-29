@@ -26,7 +26,6 @@ import play.api.mvc.{AnyContent, Result}
 import play.api.test.FakeRequest
 import queries.Gettable
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class AnswerExtractorSpec extends SpecBase {
